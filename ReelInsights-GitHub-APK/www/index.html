@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Reel insights – editable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#0b0e14;--tx:#f3f4f6;--mu:#a4a7af;--pk:#f33cf0;--bl:#5b3df0;--cd:#25272c;--tr:#22252b;--ln:#272a31;--gr:#3ec96a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;background:#000;color:var(--tx);font-family:Roboto,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+.app{max-width:412px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:50px}
+.hd{position:sticky;top:0;background:var(--bg);z-index:9}
+.status{display:flex;justify-content:space-between;padding:12px 22px 4px;font-size:14px;font-weight:600;color:#d7d9de}
+.top{display:flex;align-items:center;gap:18px;padding:12px 18px 14px}.top h1{font-size:18px;font-weight:600;margin:0 0 0 20px;flex:1}
+svg.i{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabs{display:flex;border-bottom:1px solid var(--ln);position:sticky;background:var(--bg);z-index:8}
+.tabs button{flex:1;background:none;border:0;color:var(--mu);font-size:15px;padding:14px 0 12px;cursor:pointer;font-family:inherit}
+.tabs button span{display:inline-block;padding:0 0 12px;margin-bottom:-13px;border-bottom:2px solid transparent}
+.tabs button.on{color:#fff}.tabs button.on span{border-color:#fff}
+.thumb{width:106px;height:190px;margin:14px auto;border-radius:10px;background:linear-gradient(#69656a,#2c2a2d 40%,#3b3537);position:relative;overflow:hidden;cursor:pointer}
+.thumb.big{width:137px;height:245px;margin:6px auto 22px;background:linear-gradient(#3d3a3c,#171618 40%,#2a2423)}
+.band{position:absolute;left:0;right:0;top:35%;height:32%;background:#16181c center/cover no-repeat}
+.cap{position:absolute;left:0;right:0;text-align:center;top:76%}.cap span{font-size:11px;font-weight:700;color:#fff}
+.thumb.big .cap span{background:#5b3ae6;border-radius:4px;padding:1px 4px}
+.play{position:absolute;left:50%;top:51%;width:28px;height:28px;transform:translate(-50%,-50%);stroke:#fff;fill:none;stroke-width:2.2;stroke-linejoin:round;pointer-events:none}
+.hint{text-align:center;color:#6f737b;font-size:12px;margin:0 20px 10px}
+.counts{display:flex;justify-content:space-around;padding:4px 6px 22px}.counts div{text-align:center;font-size:14px;font-weight:500}.counts svg{display:block;margin:0 auto 8px;width:30px;height:30px}
+h2{font-size:18px;font-weight:600;margin:26px 18px 14px;display:flex;align-items:center;gap:9px}
+h2 .q{width:18px;height:18px;border:1.6px solid var(--mu);color:var(--mu);border-radius:50%;font-size:11px;display:grid;place-items:center}
+.sub{margin:-6px 18px 12px;color:var(--mu);font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 18px}
+.card{background:var(--cd);border-radius:14px;padding:18px 18px 16px}.card small{display:block;color:var(--mu);font-size:13px;margin-bottom:16px}.card b{font-size:22px;font-weight:600}
+.row{display:flex;justify-content:space-between;padding:13px 18px;font-size:16px}
+.chips{display:flex;gap:10px;margin:0 18px 18px}.chips button{background:none;border:1px solid #30343b;color:#fff;border-radius:22px;padding:11px 20px;font-size:15px;cursor:pointer;font-family:inherit}.chips button.on{background:var(--cd);border-color:var(--cd)}
+.chart{margin:6px 10px;touch-action:pan-y;user-select:none}.chart svg{width:100%;display:block}
+.leg{display:flex;gap:22px;margin:4px 18px 0;font-size:14px;color:var(--mu)}.leg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px}
+.imp{display:flex;align-items:center;gap:16px;padding:14px 18px}.imp .ic{width:54px;height:54px;border-radius:50%;background:var(--cd);display:grid;place-items:center}.imp .ic svg{width:28px;height:28px}
+.imp .n{flex:1;font-size:16px;font-weight:500}.imp .r{text-align:right}.imp .r b{display:block;font-size:18px;font-weight:500}.imp .r small{font-size:13px}
+.bar{margin:6px 18px 20px}.bar .l{font-size:16px;margin-bottom:8px}
+.bar .t{display:flex;align-items:center;gap:14px}.trk{flex:1;height:14px;background:var(--tr);border-radius:8px;overflow:hidden}.trk i{display:block;height:100%;background:var(--pk);border-radius:8px;min-width:4px}
+.bar.bl .trk i{background:var(--bl)}.bar .v{width:62px;text-align:right;font-size:16px;font-weight:500}
+[contenteditable]{outline:none;border-radius:4px}[contenteditable]:focus{background:#ffffff14;box-shadow:0 0 0 2px #ffffff22}
+.yl,.xl{position:absolute;font-size:11px;color:#a4a7af;white-space:nowrap}.yl{left:0;transform:translateY(-50%)}
+.pane{display:none}.pane.on{display:block}.note{margin:24px 18px;color:#5f636b;font-size:12px;text-align:center}input[type=file]{display:none}
+</style></head><body><div class="app">
+<div class="hd"><div class="status"><span contenteditable>18:32</span><span contenteditable>37%</span></div>
+<div class="top"><svg class="i" viewBox="0 0 24 24" style="flex:none"><path d="M20 12H4M10 6l-6 6 6 6"/></svg><h1>Reel insights</h1><svg class="i" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg><svg class="i" viewBox="0 0 24 24" style="fill:#fff;stroke:none"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></div></div>
+<div class="thumb big" data-thumb><div class="band"></div></div>
+<div class="counts" id="counts"></div>
+<div class="tabs"><button class="on" data-p="ov"><span>Overview</span></button><button data-p="en"><span>Engagement</span></button><button data-p="au"><span>Audience</span></button></div>
+
+<div class="pane on" id="ov">
+<h2>Summary <span class="q">i</span></h2>
+<div class="grid">
+<div class="card"><small contenteditable>Views</small><b contenteditable>15,869</b></div><div class="card"><small contenteditable>Viewers</small><b contenteditable>3,152</b></div>
+<div class="card"><small contenteditable>Average watch time</small><b contenteditable>12s</b></div><div class="card"><small contenteditable>Follows</small><b contenteditable data-s="follows">1</b></div></div>
+<h2>Views over time <span class="q">i</span></h2>
+<div class="chips" id="vchips"><button class="on" data-k="All">All</button><button data-k="Followers">Followers</button><button data-k="Non-followers">Non-followers</button></div>
+<div class="chart" id="c0"></div>
+<div class="leg"><span><i style="background:var(--pk)"></i><span contenteditable>This reel</span></span><span><i style="background:#9a9da5"></i><span contenteditable>Your typical reel</span></span></div>
+<h2>What impacts your views <span class="q">i</span></h2><div class="sub">Rates are listed in order of importance to reach.</div>
+<div id="imp"></div>
+<h2>How long people watched your reel <span class="q">i</span></h2>
+<div class="thumb" data-thumb><div class="band"></div><svg class="play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></div>
+<div class="chart" id="c1"></div>
+<h2>Top sources of views <span class="q">i</span></h2>
+<div data-bars='[["Profile",82.5],["Reels tab",5.3],["Explore",1.4],["Feed",0.1]]'></div>
+</div>
+
+<div class="pane" id="en">
+<h2>Actions after viewing <span class="q">i</span></h2>
+<div class="row"><span contenteditable>Profile visits</span><span contenteditable>4</span></div>
+<div class="row"><span contenteditable>Follows</span><span contenteditable data-s="follows">1</span></div>
+<h2>Interactions <span class="q">i</span></h2><div id="ints"></div>
+<h2>When people liked your reel <span class="q">i</span></h2>
+<div class="thumb" data-thumb><div class="band"></div><svg class="play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></div>
+<div class="chart" id="c2"></div>
+</div>
+
+<div class="pane" id="au">
+<h2>Who viewed your reel <span class="q">i</span></h2>
+<div data-bars='[["Followers",2.5],["Non-followers",97.5]]' data-blue="1"></div>
+<h2>Audience details <span class="q">i</span></h2>
+<div class="chips" id="dchips"><button class="on" data-d="age">Age</button><button data-d="country">Country</button><button data-d="gender">Gender</button></div>
+<div id="det"></div>
+</div>
+<input type="file" accept="image/*" id="file">
+</div>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const ic={likes:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/>',comments:'<path d="M16.9 20.5A9.8 9.8 0 1 1 20.5 16.9L21.5 21.5z"/>',reposts:'<path d="M4 11V9a3 3 0 013-3h11M15 3l3 3-3 3M20 13v2a3 3 0 01-3 3H6M9 21l-3-3 3-3"/>',shares:'<path d="M21 3L3 10l7 3 3 7 8-17z"/>',saves:'<path d="M6 3h12v18l-6-5-6 5z"/>',skip:'<circle cx="12" cy="12" r="9" stroke-dasharray="1 3.2"/><path d="M12 7v5l3 2"/>'};
+const vals={likes:272,comments:8,reposts:4,shares:289,saves:8};
+$('#counts').innerHTML=Object.keys(vals).map(k=>`<div><svg class="i" viewBox="0 0 24 24">${ic[k]}</svg><span contenteditable data-s="${k}">${vals[k]}</span></div>`).join('');
+$('#ints').innerHTML=Object.keys(vals).map(k=>`<div class="row"><span contenteditable>${k[0].toUpperCase()+k.slice(1)}</span><span contenteditable data-s="${k}">${vals[k]}</span></div>`).join('');
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.s;if(k)$$(`[data-s="${k}"]`).forEach(n=>{if(n!==e.target)n.textContent=e.target.textContent})});
+const imp=[["skip","Skip rate","1.8%","Lower","var(--gr)"],["shares","Share rate","8.8%","Higher","var(--gr)"],["likes","Like rate","8.3%","Higher","var(--gr)"],["saves","Save rate","0.2%","Lower","var(--mu)"],["reposts","Repost rate","0.1%","Lower","var(--mu)"],["comments","Comment rate","0.2%","Lower","var(--mu)"]];
+$('#imp').innerHTML=imp.map(r=>`<div class="imp"><div class="ic"><svg class="i" viewBox="0 0 24 24">${ic[r[0]]}</svg></div><div class="n" contenteditable>${r[1]}</div><div class="r"><b contenteditable>${r[2]}</b><small contenteditable style="color:${r[4]}">${r[3]}</small></div></div>`).join('');
+function bars(host,data,blue){host.innerHTML=data.map((d,i)=>`<div class="bar ${blue&&i==1?'bl':''}"><div class="l" contenteditable>${d[0]}</div><div class="t"><div class="trk"><i></i></div><div class="v" contenteditable>${d[1]}%</div></div></div>`).join('');
+ const up=b=>{$('i',b).style.width=Math.min(100,Math.max(0,parseFloat($('.v',b).textContent)||0))+'%'};
+ $$('.bar',host).forEach(b=>{up(b);$('.v',b).addEventListener('input',()=>up(b))})}
+$$('[data-bars]').forEach(h=>bars(h,JSON.parse(h.dataset.bars),h.dataset.blue));
+const det={age:[["13-17",6.8],["18-24",24.5],["25-34",42.5],["35-44",17.1],["45-54",7.8],["55-64",0.8],["65+",0.5]],country:[["India",34.3],["United States",27.8],["Brazil",15.4],["Indonesia",3.8],["Türkiye",1.7]],gender:[["Men",78.1],["Women",21.9]]};
+const showDet=k=>{bars($('#det'),det[k],k=='gender')};showDet('age');
+function chips(id,fn){$$('#'+id+' button').forEach(b=>b.onclick=()=>{$$('#'+id+' button').forEach(x=>x.classList.toggle('on',x==b));fn(b)})}
+chips('dchips',b=>showDet(b.dataset.d));
+const tabs=$('.tabs');tabs.style.top=$('.hd').offsetHeight+'px';
+$$('.tabs button').forEach(b=>b.onclick=()=>{$$('.tabs button').forEach(x=>x.classList.toggle('on',x==b));$$('.pane').forEach(p=>p.classList.toggle('on',p.id==b.dataset.p))});
+function chart(id,o){const W=340,H=o.H||190,L=o.L||44,R=330,T=o.T||10,B=o.B||158,host=$('#'+id);o.min=o.min||0;
+ const x=f=>L+(R-L)*f,y=v=>B-(B-T)*(v-o.min)/((o.top-o.min)||1),xs=o.xs||o.pts.map((_,i)=>i/(o.pts.length-1));
+ const fm=v=>{v=Math.round(v*10)/10;return(o.k&&Math.abs(v)>=1000?(v/1000).toFixed(1).replace('.0','')+'K':v)+(o.pct?'%':'')};
+ const pv=t=>{t=String(t).replace(/[%,\s]/g,'').toUpperCase();const n=parseFloat(t)*(t.endsWith('K')?1000:1);return isNaN(n)?null:n};
+ const gl=[T,(T+B)/2,B].map(v=>`<line x1="${L}" x2="${R}" y1="${v}" y2="${v}"/>`).join('');
+ host.style.position='relative';
+ host.innerHTML=`<svg viewBox="0 0 ${W} ${H}"><g stroke="#20232a">${gl}</g><polyline class="ty" fill="none" stroke="#9a9da5" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round"/><polyline class="pl" fill="none" stroke="#f33cf0" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/><g class="tp"></g></svg>`+
+ [[T,o.top,0],[(T+B)/2,(o.top+o.min)/2,1],[B,o.min,2]].map(a=>`<div class="yl" data-j="${a[2]}" style="top:${a[0]/H*100}%" ${a[2]==1?'':'contenteditable'}>${fm(a[1])}</div>`).join('')+
+ o.xl.map(a=>`<div class="xl" style="left:${x(a[0])/W*100}%;top:${(B+8)/H*100}%;transform:translateX(${a[2]=='start'?'0':a[2]=='end'?'-100%':'-50%'})" contenteditable>${a[1]}</div>`).join('');
+ const pl=$('.pl',host),tp=$('.tp',host),s=$('svg',host);let cur=o.tip?o.pts.length-1:-1,drag=false;
+ const draw=()=>{pl.setAttribute('points',o.pts.map((v,i)=>x(xs[i])+','+y(v)).join(' '));
+  if(o.typ)$('.ty',host).setAttribute('points',o.typ.map((v,i)=>x(o.txs[i])+','+y(v)).join(' '));
+  if(o.tip&&cur>=0){const cx=x(xs[cur]),bx=Math.max(2,Math.min(W-56,cx-26));tp.innerHTML=`<line x1="${cx}" x2="${cx}" y1="38" y2="${B}" stroke="#a4a7af" stroke-dasharray="3 3"/><rect x="${bx}" y="2" width="52" height="36" rx="8" fill="#2b2e35"/><text x="${bx+26}" y="19" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">${fm(o.pts[cur])}</text><text x="${bx+26}" y="32" fill="#a4a7af" font-size="9" text-anchor="middle">${7+Math.round(xs[cur]*7)} Nov</text>`}};draw();
+ $$('.yl[contenteditable]',host).forEach(d=>d.addEventListener('input',()=>{const v=pv(d.textContent);if(v===null)return;const t=d.dataset.j=='0'?v:o.top,m=d.dataset.j=='2'?v:o.min;if(t<=m)return;o.top=t;o.min=m;$('.yl[data-j="1"]',host).textContent=fm((t+m)/2);draw()}));
+ const pos=e=>{const r=s.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]};
+ s.addEventListener('pointerdown',e=>{const px=pos(e)[0];let b=0,d=1e9;xs.forEach((f,i)=>{const dd=Math.abs(x(f)-px);if(dd<d){d=dd;b=i}});cur=b;drag=true;s.setPointerCapture(e.pointerId);draw()});
+ s.addEventListener('pointermove',e=>{if(!drag)return;const py=pos(e)[1];o.pts[cur]=Math.round(Math.max(o.min,Math.min(o.top,o.min+(B-py)/(B-T)*(o.top-o.min)))*10)/10;draw()});
+ s.addEventListener('pointerup',()=>drag=false)}
+const vd={All:[0,1450,1450,1620,1650],Followers:[0,30,30,34,35],"Non-followers":[0,1420,1420,1586,1615]};
+const vxs=[0,.0743,.1429,.2143,.2929].map(v=>v*1.0);
+const drawV=k=>chart('c0',{pts:vd[k],xs:[0,.075,.145,.215,.295],txs:[0,.07,.25,1],typ:[0,200,205,205],top:2000,T:48,B:170,H:205,L:44,yl:[[2000,'2K'],[1000,'1K'],[0,'0']],xl:[[0,'7 Nov','start'],[.5,'11 Nov','middle'],[1,'14 Nov','end']],tip:1,k:1});
+drawV('All');chips('vchips',b=>drawV(b.dataset.k));
+chart('c1',{pts:[100,97,96,16,14,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],top:100,pct:1,yl:[[100,'100%'],[50,'50%'],[0,'0%']],xl:[[0,'0:00','start'],[1,'0:23','end']]});
+chart('c2',{pts:[43,14,28,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],top:50,pct:1,yl:[[50,'50%'],[25,'25%'],[0,'0%']],xl:[[0,'0:00','start'],[1,'0:23','end']]});
+let tgt=null;$$('[data-thumb]').forEach(t=>t.addEventListener('click',e=>{if(e.target.isContentEditable)return;tgt=$('.band',t);$('#file').click()}));
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f||!tgt)return;const r=new FileReader();r.onload=()=>{tgt.style.backgroundImage=`url(${r.result})`};r.readAsDataURL(f);e.target.value=''};
+</script></body></html>

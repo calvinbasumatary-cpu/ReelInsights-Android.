@@ -1,0 +1,6 @@
+{
+  "appId": "com.calvin.reelinsights",
+  "appName": "Reel Insights",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
